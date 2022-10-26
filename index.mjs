@@ -112,10 +112,10 @@ program
 program
   .argument("<directory>", "template directory")
   .option("-o, --output <file>", "output file name", "./site.php")
+  .option("-d, --debug", "print debug messages")
   .option(
     "-r, --withReversedOutput <file>",
-    "output file name (with strings reverted)",
-    "./site-rev.php"
+    "output file name (with strings reverted)"
   )
   .action(async (dir) => {
     const i18nStrings = await walkFiles(dir)
