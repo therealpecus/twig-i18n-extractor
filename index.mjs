@@ -14,7 +14,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const tFilter = /\|(?:t|translate)(?:\(\)|\(['"\w]+|[,\)\s%\}\|])/
 
 const walkFiles = async (dir) => {
-  const paths = await globby("**/*.twig", { cwd: path.resolve(__dirname, dir) })
+  let isDir = false
+  try {
+    const fstat = await fs.stat(dir)
+    isDir = fstat.isDirectory()
+  } catch (err) {
+    console.error("File or directory not found")
+    process.exit(1)
+  }
+  const paths = isDir
+    ? await globby("**/*.twig", { cwd: path.resolve(__dirname, dir) })
+    : [path.resolve(__dirname, dir)]
   const strings = await Promise.all(
     paths.map((template) => extractStrings(template, dir))
   )
@@ -152,7 +162,7 @@ program
   .version(pkg.version)
 
 program
-  .argument("<directory>", "template directory")
+  .argument("<file or directory>", "template or template directory")
   .option("-o, --output <file>", "output file name", "./site.php")
   .option("-d, --debug", "print debug messages")
   .option(
