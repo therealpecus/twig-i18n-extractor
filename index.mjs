@@ -11,7 +11,7 @@ import fs from "node:fs/promises"
 const require = createRequire(import.meta.url)
 const pkg = require("./package.json")
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const tFilter = /\|(?:t|translate)(?:\(\)|\(['"\w]+|[,\)\s%\}\|])/
+const tFilter = /\|(?:t[^r])|translate/g
 
 const walkFiles = async (dir) => {
   let isDir = false
@@ -89,7 +89,7 @@ const extractStrings = async (template, dir) => {
     console.debug(`processing ${template}`)
   }
   const strings = parts
-    .filter((line) => tFilter.test(line))
+    .filter((line) => line.match(tFilter))
     .map((line, idx) => processLine(line, idx))
   console.log(
     `processing ${template}: found ${strings.flat(Infinity).length} strings`
@@ -103,20 +103,16 @@ const processLine = (line, idx) => {
   if (options.debug) {
     console.group(`L${idx}`)
   }
-  while (tFilterGlobal.test(line)) {
+  Array.from(line.matchAll(tFilterGlobal)).map((match) => {
     // lastIndex matches the character at the end of the match
-    const lastCharIsPipe = line[tFilterGlobal.lastIndex] === "|" ? 1 : 0
-    const filterBarIdx = line.lastIndexOf(
-      "|",
-      tFilterGlobal.lastIndex - lastCharIsPipe
-    )
+    const filterBarIdx = line.lastIndexOf("|", match.index)
     let endQuoteIdx = filterBarIdx - 1
     const quote = line[endQuoteIdx]
     if (quote !== `"` && quote !== `'`) {
       // bail out when filter argument is a variable
       if (options.debug) {
-        console.debug("bail out on", line)
-        console.debug("lastCharIsPipe", lastCharIsPipe)
+        console.debug("BAILING OUT")
+        console.debug("line", line)
         console.debug("quote", quote)
         console.debug("endQuoteIdx", endQuoteIdx)
         console.groupEnd()
@@ -127,7 +123,6 @@ const processLine = (line, idx) => {
     if (options.debug) {
       console.debug("line", line)
       console.debug("startQuoteIdx", startQuoteIdx)
-      console.debug("lastCharIsPipe", lastCharIsPipe)
       console.debug("quote", quote)
       console.debug("endQuoteIdx", endQuoteIdx)
     }
@@ -136,10 +131,9 @@ const processLine = (line, idx) => {
       startQuoteIdx = line.lastIndexOf(quote, startQuoteIdx - 1)
       if (options.debug) {
         console.debug(
-          "looking for string start at",
-          startQuoteIdx,
-          line[startQuoteIdx],
-          line[startQuoteIdx - 1]
+          `looking for string start from ${startQuoteIdx} (char "${
+            line[startQuoteIdx]
+          }", prev. char is ${line[startQuoteIdx - 1]}`
         )
       }
     } while (line[startQuoteIdx - 1] === "\\")
@@ -147,7 +141,7 @@ const processLine = (line, idx) => {
       console.debug("extracted", line.slice(startQuoteIdx, endQuoteIdx + 1))
     }
     i18nStrings.push(line.slice(startQuoteIdx, endQuoteIdx + 1))
-  }
+  })
   if (options.debug) {
     console.groupEnd()
   }
@@ -174,6 +168,9 @@ program
     saveStrings(i18nStrings)
     if (options.withReversedOutput) {
       saveStrings(i18nStrings, true)
+    }
+    if (options.debug) {
+      console.debug(i18nStrings)
     }
   })
 
