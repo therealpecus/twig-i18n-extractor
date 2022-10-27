@@ -11,7 +11,7 @@ import fs from "node:fs/promises"
 const require = createRequire(import.meta.url)
 const pkg = require("./package.json")
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const tFilter = /\|(?:t[^r])|translate/g
+const tFilter = /\|(?:t[^r]|translate)/g
 
 const walkFiles = async (dir) => {
   let isDir = false
@@ -79,6 +79,15 @@ ${phpArray}
   fs.writeFile(filename, template)
 }
 
+/**
+ *
+ * @param {*} template the path of the twig template to process
+ * @param {*} dir the parent path of the template
+ * @returns array of strings for static translation
+ *
+ * avoid testing the regExp via string.prototype.test(RegExp) because it fails on multiple lines matching
+ * (needs a false match to reset the search)
+ */
 const extractStrings = async (template, dir) => {
   const twigFile = await fs.readFile(
     path.resolve(__dirname, dir, template),
@@ -97,19 +106,23 @@ const extractStrings = async (template, dir) => {
   return strings.flat(Infinity)
 }
 
+/**
+ *
+ * @param {string} line the line of the twig template to extract strings from
+ * @param {number} idx the line number (filtered)
+ * @returns array of strings for static translation
+ */
 const processLine = (line, idx) => {
-  const tFilterGlobal = new RegExp(tFilter.source, "g")
   const i18nStrings = []
   if (options.debug) {
     console.group(`L${idx}`)
   }
-  Array.from(line.matchAll(tFilterGlobal)).map((match) => {
-    // lastIndex matches the character at the end of the match
+  Array.from(line.matchAll(tFilter)).map((match) => {
     const filterBarIdx = line.lastIndexOf("|", match.index)
     let endQuoteIdx = filterBarIdx - 1
     const quote = line[endQuoteIdx]
     if (quote !== `"` && quote !== `'`) {
-      // bail out when filter argument is a variable
+      // bail out when filter argument does not look like a string
       if (options.debug) {
         console.debug("BAILING OUT")
         console.debug("line", line)
@@ -131,7 +144,7 @@ const processLine = (line, idx) => {
       startQuoteIdx = line.lastIndexOf(quote, startQuoteIdx - 1)
       if (options.debug) {
         console.debug(
-          `looking for string start from ${startQuoteIdx} (char "${
+          `looking backwards for beginning of string starting from ${startQuoteIdx} (char "${
             line[startQuoteIdx]
           }", prev. char is ${line[startQuoteIdx - 1]}`
         )
