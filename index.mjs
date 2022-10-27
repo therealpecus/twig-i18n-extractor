@@ -11,7 +11,7 @@ import fs from "node:fs/promises"
 const require = createRequire(import.meta.url)
 const pkg = require("./package.json")
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const tFilter = /\|(?:t|translate)(?:\(\)|\(['"\w]+|[\s%\}\|])/
+const tFilter = /\|(?:t|translate)(?:\(\)|\(['"\w]+|[,\)\s%\}\|])/
 
 const walkFiles = async (dir) => {
   const paths = await globby("**/*.twig", { cwd: path.resolve(__dirname, dir) })
@@ -75,29 +75,71 @@ const extractStrings = async (template, dir) => {
     "utf-8"
   )
   const parts = twigFile.split(/\r?\n/)
+  if (options.debug) {
+    console.debug(`processing ${template}`)
+  }
   const strings = parts
     .filter((line) => tFilter.test(line))
-    .map((line) => processLine(line))
+    .map((line, idx) => processLine(line, idx))
   console.log(
     `processing ${template}: found ${strings.flat(Infinity).length} strings`
   )
   return strings.flat(Infinity)
 }
 
-const processLine = (line) => {
+const processLine = (line, idx) => {
   const tFilterGlobal = new RegExp(tFilter.source, "g")
   const i18nStrings = []
+  if (options.debug) {
+    console.group(`L${idx}`)
+  }
   while (tFilterGlobal.test(line)) {
     // lastIndex matches the character at the end of the match
-    const filterBarIdx = line.lastIndexOf("|", tFilterGlobal.lastIndex)
+    const lastCharIsPipe = line[tFilterGlobal.lastIndex] === "|" ? 1 : 0
+    const filterBarIdx = line.lastIndexOf(
+      "|",
+      tFilterGlobal.lastIndex - lastCharIsPipe
+    )
     let endQuoteIdx = filterBarIdx - 1
     const quote = line[endQuoteIdx]
+    if (quote !== `"` && quote !== `'`) {
+      // bail out when filter argument is a variable
+      if (options.debug) {
+        console.debug("bail out on", line)
+        console.debug("lastCharIsPipe", lastCharIsPipe)
+        console.debug("quote", quote)
+        console.debug("endQuoteIdx", endQuoteIdx)
+        console.groupEnd()
+      }
+      return []
+    }
     let startQuoteIdx = endQuoteIdx
+    if (options.debug) {
+      console.debug("line", line)
+      console.debug("startQuoteIdx", startQuoteIdx)
+      console.debug("lastCharIsPipe", lastCharIsPipe)
+      console.debug("quote", quote)
+      console.debug("endQuoteIdx", endQuoteIdx)
+    }
     do {
       // walk back and find the start of the string
       startQuoteIdx = line.lastIndexOf(quote, startQuoteIdx - 1)
+      if (options.debug) {
+        console.debug(
+          "looking for string start at",
+          startQuoteIdx,
+          line[startQuoteIdx],
+          line[startQuoteIdx - 1]
+        )
+      }
     } while (line[startQuoteIdx - 1] === "\\")
+    if (options.debug) {
+      console.debug("extracted", line.slice(startQuoteIdx, endQuoteIdx + 1))
+    }
     i18nStrings.push(line.slice(startQuoteIdx, endQuoteIdx + 1))
+  }
+  if (options.debug) {
+    console.groupEnd()
   }
   return i18nStrings
 }
