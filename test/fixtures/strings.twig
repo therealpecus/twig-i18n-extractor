@@ -1,0 +1,221 @@
+{# strings #}
+{% set schema = null %}
+  {{ 't filter'|t }}
+  {{ 't filter with parens'|t() }}
+  {{ 't filter with category (variable)'|t(schema) }}
+  {{ 't filter with category (string single quotes)'|t('schema') }}
+  {{ 't filter with category (string double quotes)'|t("schema") }}
+  {{ 't filter, category (variable), params'|t(schema, params = {}) }}
+  {{ 't filter, category (string, single quotes), params'|t('schema', params = {}) }}
+  {{ 't filter, category (string, double quotes), params'|t("schema", params = {}) }}
+  {{ 't filter, params'|t(params = {}) }}
+  {{ "t filter (double quotes)"|t }}
+  {{ "t filter with parens (double quotes)"|t() }}
+  {{ "t filter with category (variable) (double quotes)"|t(schema) }}
+  {{ "t filter with category (string single quotes) (double quotes)"|t('schema') }}
+  {{ "t filter with category (string double quotes) (double quotes)"|t("schema") }}
+  {{ "t filter, category (variable), params (double quotes)"|t(schema, params = {}) }}
+  {{ "t filter, category (string, single quotes), params (double quotes)"|t('schema', params = {}) }}
+  {{ "t filter, category (string, double quotes), params (double quotes)"|t("schema", params = {}) }}
+  {{ "t filter, params (double quotes)"|t(params = {}) }}
+  {{ 'translate filter'|translate }}
+  {{ 'translate filter with parens'|translate() }}
+  {{ 'translate filter with category (variable)'|translate(schema) }}
+  {{ 'translate filter with category (string single quotes)'|translate('schema') }}
+  {{ 'translate filter with category (string double quotes)'|translate("schema") }}
+  {{ 'translate filter, category (variable), params'|translate(schema, params = {}) }}
+  {{ 'translate filter, category (string, single quotes), params'|translate('schema', params = {}) }}
+  {{ 'translate filter, category (string, double quotes), params'|translate("schema", params = {}) }}
+  {{ 'translate filter, params'|translate(params = {}) }}
+  {{ "translate filter (double quotes)"|translate }}
+  {{ "translate filter with parens (double quotes)"|translate() }}
+  {{ "translate filter with category (variable) (double quotes)"|translate(schema) }}
+  {{ "translate filter with category (string single quotes) (double quotes)"|translate('schema') }}
+  {{ "translate filter with category (string double quotes) (double quotes)"|translate("schema") }}
+  {{ "translate filter, category (variable), params (double quotes)"|translate(schema, params = {}) }}
+  {{ "translate filter, category (string, single quotes), params (double quotes)"|translate('schema', params = {}) }}
+  {{ "translate filter, category (string, double quotes), params (double quotes)"|translate("schema", params = {}) }}
+  {{ "translate filter, params (double quotes)"|translate(params = {}) }}
+{# strings and whitespace #}
+{{ 't filter newline'|t
+}}
+  {{ 't filter with parens newline'|t(
+  ) }}
+  {{ 't filter with category (variable) newline'|t(
+    schema) }}
+  {{ 't filter with category (string single quotes) newline'|t(
+    'schema') }}
+  {{ 't filter with category (string double quotes) newline'|t(
+    "schema") }}
+  {{ 't filter, category (variable), params newline'|t(
+    schema, params = {}) }}
+  {{ 't filter, category (string, single quotes), params newline'|t(
+    'schema', params = {}) }}
+  {{ 't filter, category (string, double quotes), params newline'|t(
+    "schema", params = {}) }}
+  {{ 't filter, params newline'|t(
+    params = {}) }}
+{{ "t filter (double quotes) newline"|t
+ }}
+  {{ "t filter with parens (double quotes) newline"|t(
+  ) }}
+  {{ "t filter with category (variable) (double quotes) newline"|t(
+    schema) }}
+  {{ "t filter with category (string single quotes) (double quotes) newline"|t(
+    'schema') }}
+  {{ "t filter with category (string double quotes) (double quotes) newline"|t(
+    "schema") }}
+  {{ "t filter, category (variable), params (double quotes) newline"|t(
+    schema, params = {}) }}
+  {{ "t filter, category (string, single quotes), params (double quotes) newline"|t(
+    'schema', params = {}) }}
+  {{ "t filter, category (string, double quotes), params (double quotes) newline"|t(
+    "schema", params = {}) }}
+  {{ "t filter, params (double quotes) newline"|t(
+    params = {}) }}
+  {{ 'translate filter newline'|translate
+  }}
+  {{ 'translate filter with parens newline'|translate(
+  ) }}
+  {{ 'translate filter with category (variable) newline'|translate(
+    schema) }}
+  {{ 'translate filter with category (string single quotes) newline'|translate(
+    'schema') }}
+  {{ 'translate filter with category (string double quotes) newline'|translate(
+    "schema") }}
+  {{ 'translate filter, category (variable), params newline'|translate(
+    schema, params = {}) }}
+  {{ 'translate filter, category (string, single quotes), params newline'|translate(
+    'schema', params = {}) }}
+  {{ 'translate filter, category (string, double quotes), params newline'|translate(
+    "schema", params = {}) }}
+  {{ 'translate filter, params newline'|translate(
+    params = {}) }}
+  {{ "translate filter (double quotes) newline"|translate }}
+  {{ "translate filter with parens (double quotes) newline"|translate(
+  ) }}
+  {{ "translate filter with category (variable) (double quotes) newline"|translate(
+    schema) }}
+  {{ "translate filter with category (string single quotes) (double quotes) newline"|translate(
+    'schema') }}
+  {{ "translate filter with category (string double quotes) (double quotes) newline"|translate(
+    "schema") }}
+  {{ "translate filter, category (variable), params (double quotes) newline"|translate(
+    schema, params = {}) }}
+  {{ "translate filter, category (string, single quotes), params (double quotes) newline"|translate(
+    'schema', params = {}) }}
+  {{ "translate filter, category (string, double quotes), params (double quotes) newline"|translate(
+    "schema", params = {}) }}
+  {{ "translate filter, params (double quotes) newline"|translate(
+    params = {}) }}
+
+{# strings (escaped)#}
+  {{ '\'t filter escaped'|t }}
+  {{ '\'t filter with parens escaped'|t() }}
+  {{ '\'t filter with category (variable) escaped'|t(schema) }}
+  {{ '\'t filter with category (string single quotes) escaped'|t('schema') }}
+  {{ '\'t filter with category (string double quotes) escaped'|t("schema") }}
+  {{ '\'t filter, category (variable), params escaped'|t(schema, params = {}) }}
+  {{ '\'t filter, category (string, single quotes), params escaped'|t('schema', params = {}) }}
+  {{ '\'t filter, category (string, double quotes), params escaped'|t("schema", params = {}) }}
+  {{ '\'t filter, params escaped'|t(params = {}) }}
+  {{ "\"t filter (double quotes) escaped"|t }}
+  {{ "\"t filter with parens (double quotes) escaped"|t() }}
+  {{ "\"t filter with category (variable) (double quotes) escaped"|t(schema) }}
+  {{ "\"t filter with category (string single quotes) (double quotes) escaped"|t('schema') }}
+  {{ "\"t filter with category (string double quotes) (double quotes) escaped"|t("schema") }}
+  {{ "\"t filter, category (variable), params (double quotes) escaped"|t(schema, params = {}) }}
+  {{ "\"t filter, category (string, single quotes), params (double quotes) escaped"|t('schema', params = {}) }}
+  {{ "\"t filter, category (string, double quotes), params (double quotes) escaped"|t("schema", params = {}) }}
+  {{ "\"t filter, params (double quotes) escaped"|t(params = {}) }}
+  {{ '\'translate filter escaped'|translate }}
+  {{ '\'translate filter with parens escaped'|translate() }}
+  {{ '\'translate filter with category (variable) escaped'|translate(schema) }}
+  {{ '\'translate filter with category (string single quotes) escaped'|translate('schema') }}
+  {{ '\'translate filter with category (string double quotes) escaped'|translate("schema") }}
+  {{ '\'translate filter, category (variable), params escaped'|translate(schema, params = {}) }}
+  {{ '\'translate filter, category (string, single quotes), params escaped'|translate('schema', params = {}) }}
+  {{ '\'translate filter, category (string, double quotes), params escaped'|translate("schema", params = {}) }}
+  {{ '\'translate filter, params escaped'|translate(params = {}) }}
+  {{ "\"translate filter (double quotes) escaped"|translate }}
+  {{ "\"translate filter with parens (double quotes) escaped"|translate() }}
+  {{ "\"translate filter with category (variable) (double quotes) escaped"|translate(schema) }}
+  {{ "\"translate filter with category (string single quotes) (double quotes) escaped"|translate('schema') }}
+  {{ "\"translate filter with category (string double quotes) (double quotes) escaped"|translate("schema") }}
+  {{ "\"translate filter, category (variable), params (double quotes) escaped"|translate(schema, params = {}) }}
+  {{ "\"translate filter, category (string, single quotes), params (double quotes) escaped"|translate('schema', params = {}) }}
+  {{ "\"translate filter, category (string, double quotes), params (double quotes) escaped"|translate("schema", params = {}) }}
+  {{ "\"translate filter, params (double quotes) escaped"|translate(params = {}) }}
+{# strings and whitespace (escaped) #}
+{{ '\'t filter escaped newline'|t
+ }}
+  {{ '\'t filter with parens escaped newline'|t(
+  ) }}
+  {{ '\'t filter with category (variable) escaped newline'|t(
+    schema) }}
+  {{ '\'t filter with category (string single quotes) escaped newline'|t(
+    'schema') }}
+  {{ '\'t filter with category (string double quotes) escaped newline'|t(
+    "schema") }}
+  {{ '\'t filter, category (variable), params escaped newline'|t(
+    schema, params = {}) }}
+  {{ '\'t filter, category (string, single quotes), params escaped newline'|t(
+    'schema', params = {}) }}
+  {{ '\'t filter, category (string, double quotes), params escaped newline'|t(
+    "schema", params = {}) }}
+  {{ '\'t filter, params escaped newline'|t(
+    params = {}) }}
+{{ "\"t filter (double quotes) escaped newline"|t
+ }}
+  {{ "\"t filter with parens (double quotes) escaped newline"|t(
+  ) }}
+  {{ "\"t filter with category (variable) (double quotes) escaped newline"|t(
+    schema) }}
+  {{ "\"t filter with category (string single quotes) (double quotes) escaped newline"|t(
+    'schema') }}
+  {{ "\"t filter with category (string double quotes) (double quotes) escaped newline"|t(
+    "schema") }}
+  {{ "\"t filter, category (variable), params (double quotes) escaped newline"|t(
+    schema, params = {}) }}
+  {{ "\"t filter, category (string, single quotes), params (double quotes) escaped newline"|t(
+    'schema', params = {}) }}
+  {{ "\"t filter, category (string, double quotes), params (double quotes) escaped newline"|t(
+    "schema", params = {}) }}
+  {{ "\"t filter, params (double quotes) escaped newline"|t(
+    params = {}) }}
+  {{ '\'translate filter escaped newline'|translate
+  }}
+  {{ '\'translate filter with parens escaped newline'|translate(
+  ) }}
+  {{ '\'translate filter with category (variable) escaped newline'|translate(
+    schema) }}
+  {{ '\'translate filter with category (string single quotes) escaped newline'|translate(
+    'schema') }}
+  {{ '\'translate filter with category (string double quotes) escaped newline'|translate(
+    "schema") }}
+  {{ '\'translate filter, category (variable), params escaped newline'|translate(
+    schema, params = {}) }}
+  {{ '\'translate filter, category (string, single quotes), params escaped newline'|translate(
+    'schema', params = {}) }}
+  {{ '\'translate filter, category (string, double quotes), params escaped newline'|translate(
+    "schema", params = {}) }}
+  {{ '\'translate filter, params escaped newline'|translate(
+    params = {}) }}
+  {{ "\"translate filter (double quotes) escaped newline"|translate
+  }}
+  {{ "\"translate filter with parens (double quotes) escaped newline"|translate(
+  ) }}
+  {{ "\"translate filter with category (variable) (double quotes) escaped newline"|translate(
+    schema) }}
+  {{ "\"translate filter with category (string single quotes) (double quotes) escaped newline"|translate(
+    'schema') }}
+  {{ "\"translate filter with category (string double quotes) (double quotes) escaped newline"|translate(
+    "schema") }}
+  {{ "\"translate filter, category (variable), params (double quotes) escaped newline"|translate(
+    schema, params = {}) }}
+  {{ "\"translate filter, category (string, single quotes), params (double quotes) escaped newline"|translate(
+    'schema', params = {}) }}
+  {{ "\"translate filter, category (string, double quotes), params (double quotes) escaped newline"|translate(
+    "schema", params = {}) }}
+  {{ "\"translate filter, params (double quotes) escaped newline"|translate(
+    params = {}) }}
