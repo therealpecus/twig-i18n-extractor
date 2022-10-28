@@ -1,0 +1,60 @@
+{# variable in object #}
+{# t filter #}
+{% set var = { foo: rt.title|t }) %}
+{# double filter starting with t #}
+{% set var = { foo: rt.title|t|trim }) %}
+{# double filter #}
+{% set var = { foo: rt.title|t|raw }) %}
+{# empty params #}
+{% set var = { foo: rt.title|t() }) %}
+{# one param #}
+{% set var = { foo: rt.title|t('schema') }) %}
+{% set var = { foo: rt.title|t("schema") }) %}
+{# one param as variable #}
+{% set var = { foo: rt.title|t(schema) }) %}
+{# one param as variable plus params obj #}
+{% set var = { foo: rt.title|t(schema, params = {}) }) %}
+{% set var = { foo: rt.title|t('schema', params = {}) }) %}
+{# params obj only #}
+{% set var = { foo: rt.title|t(params = {}) }) %}
+{# params obj only with value #}
+{% set var = { foo: rt.title|t(params = { bar: 'baz' }) }) %}
+{# newline #}
+{% set var = { foo: rt.title|t
+} %}
+{# multiline #}
+{% set var = {
+    foo: rt.title|t,
+    bar: rt.title|t,
+    baz: rt.title|t
+  } %}
+
+{# translate filter #}
+{% set var = { foo: rt.title|translate }) %}
+{# double filter starting with t #}
+{% set var = { foo: rt.title|translate|trim }) %}
+{# double filter #}
+{% set var = { foo: rt.title|translate|raw }) %}
+{# empty params #}
+{% set var = { foo: rt.title|translate() }) %}
+{# one param #}
+{% set var = { foo: rt.title|translate('schema') }) %}
+{% set var = { foo: rt.title|translate("schema") }) %}
+{# one param as variable #}
+{% set var = { foo: rt.title|translate(schema) }) %}
+{# one param as variable plus params obj #}
+{% set var = { foo: rt.title|translate(schema, params = {}) }) %}
+{% set var = { foo: rt.title|translate('schema', params = {}) }) %}
+{# params obj only #}
+{% set var = { foo: rt.title|translate(params = {}) }) %}
+{# params obj only with value #}
+{% set var = { foo: rt.title|translate(params = { bar: 'baz' }) }) %}
+{# newline #}
+{% set var = { foo: rt.title|translate
+} %}
+{# multiline #}
+{% set var = {
+    foo: rt.title|translate,
+    bar: rt.title|translate,
+    baz: rt.title|translate
+  } %}

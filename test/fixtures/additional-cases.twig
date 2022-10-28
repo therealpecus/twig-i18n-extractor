@@ -1,0 +1,13 @@
+{# additional cases #}
+{% set socialItem = "Twitter" %}
+{{ "follow us on"|t~" #{socialItem}" }}
+{{ "like us on"|t ~ " #{socialItem}" }}
+{{ "poke us on"|t
+~ " #{socialItem}" }}
+{% set obj ={
+  label: 'Label content'|t,
+  text: 'Text content'|t,
+} %}
+{{ "skip"|trim }}
+{{ "skip me too"|trim
+}}
